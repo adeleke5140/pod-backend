@@ -6,6 +6,11 @@ import {
   getPublicReposByUserAction,
   validateGetPublicReposByUserAction,
 } from './action-get-public-repos-by-user';
+import {
+  requestProjectApproval,
+  validateRequestProjectApprovalAction,
+} from './action-request-project-approval';
+import { isAuthenticatedMw } from '../../config/mw/is-authenticated-mw';
 
 const router: IRouter = Router();
 
@@ -23,6 +28,12 @@ router.post(
   '/v1-get-user-by-token',
   validateGetUserByToken,
   catchAsyncErrors(getUserByTokenAction),
+);
+router.post(
+  '/v1-request-project-approval',
+  isAuthenticatedMw,
+  validateRequestProjectApprovalAction,
+  catchAsyncErrors(requestProjectApproval),
 );
 
 export { router as userRoutes };

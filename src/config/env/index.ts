@@ -34,6 +34,11 @@ export interface IConfig {
     uri: string;
     poolSize: number;
   };
+  privateKey: string;
+  web3Rpc: string;
+  contractAddr: {
+    podNft: string;
+  };
   providers?: Record<string, unknown | any>;
 }
 
@@ -67,6 +72,13 @@ const development: any = (): IConfig => {
         pass: process.env.SMTP_PASS || 'iwjubxdfvo12tgllrx',
       },
     },
+    web3Rpc: 'https://filecoin-calibration.chainup.net/rpc/v1',
+    contractAddr: {
+      podNft: '0xe7Dbcb152531C1750733950cdebE04D2AfbbC607',
+    },
+    privateKey:
+      process.env.PRIVATE_KEY ??
+      '0x9631065723768b9eccf87a7c6ac1676cff6063ee73c70c7b626adb538ed6643f',
     secret: process.env.SECRET ?? '@QEGTUI',
     encryptionKey: process.env.ENCRYPTION_KEY ?? '',
     httpTimeout: parseInt(process.env.HTTP_CLIENT_TIMEOUT) ?? 10000,
@@ -100,6 +112,13 @@ const production: any = (): IConfig => {
         pass: process.env.SMTP_PASS || '',
       },
     },
+    web3Rpc: '',
+    privateKey:
+      process.env.PRIVATE_KEY ??
+      '0x9631065723768b9eccf87a7c6ac1676cff6063ee73c70c7b626adb538ed6643f',
+    contractAddr: {
+      podNft: '0x12321',
+    },
     secret: process.env.SECRET ?? '@QEGTUI',
     encryptionKey: process.env.ENCRYPTION_KEY ?? 'asdfs2323sdf23342dfsf32434',
     httpTimeout: parseInt(process.env.HTTP_CLIENT_TIMEOUT) ?? 10000,
@@ -132,6 +151,13 @@ const test: any = (): IConfig => {
     mongodb: {
       poolSize: parseInt(process.env.MONGODB_DB_POOL_SIZE) ?? 10,
       uri: process.env.MONGODB_URI ?? 'mongodb://0.0.0.0:27017/backend-test',
+    },
+    web3Rpc: '',
+    privateKey:
+      process.env.PRIVATE_KEY ??
+      '0x9631065723768b9eccf87a7c6ac1676cff6063ee73c70c7b626adb538ed6643f',
+    contractAddr: {
+      podNft: '0x12321',
     },
     secret: process.env.SECRET ?? '@QEGTUI',
     encryptionKey: process.env.ENCRYPTION_KEY ?? 'testtestestestest',

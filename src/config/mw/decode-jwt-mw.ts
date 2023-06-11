@@ -5,7 +5,11 @@ import { IAppResponse } from '../../types/app-response';
 import { NextFunction } from 'express-serve-static-core';
 import { logger } from '../../util/logger';
 
-export async function decodeJwtMw(req: IAppRequest, res: IAppResponse, next: NextFunction): Promise<void> {
+export async function decodeJwtMw(
+  req: IAppRequest,
+  res: IAppResponse,
+  next: NextFunction,
+): Promise<void> {
   const {
     headers: { token },
   } = req;

@@ -11,6 +11,10 @@ import {
   validateRequestProjectApprovalAction,
 } from './action-request-project-approval';
 import { isAuthenticatedMw } from '../../config/mw/is-authenticated-mw';
+import {
+  isUserAllowedToMintAction,
+  validateIsUserAllowedToMintNftAction,
+} from './action-is-user-allowed-to-mint';
 
 const router: IRouter = Router();
 
@@ -34,6 +38,11 @@ router.post(
   isAuthenticatedMw,
   validateRequestProjectApprovalAction,
   catchAsyncErrors(requestProjectApproval),
+);
+router.post(
+  '/v1-is-user-allowed-to-mint',
+  validateIsUserAllowedToMintNftAction,
+  catchAsyncErrors(isUserAllowedToMintAction),
 );
 
 export { router as userRoutes };

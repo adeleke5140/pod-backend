@@ -37,10 +37,11 @@ export async function requestProjectApproval(req: IReq, res: IRes): Promise<IRes
     _id: userId,
     isEnabled: true,
   });
+
   if (!user) {
     throw new HttpError(StatusCodes.NOT_FOUND);
   }
-  console.log('here...');
+
   try {
     // get user repos
     const userReposResponse = await httpClient.httpGET({
@@ -73,8 +74,8 @@ export async function requestProjectApproval(req: IReq, res: IRes): Promise<IRes
         };
       })
       .filter((repo: any) => {
-        console.log(repo.name);
-
+        //console.log(repo.name);
+        console.log('projectName', projectName);
         return repo.name == projectName;
       });
 
@@ -147,6 +148,7 @@ export async function requestProjectApproval(req: IReq, res: IRes): Promise<IRes
   } catch (e) {
     console.log('error', e);
   }
+
   return res.json({
     success: false,
     message: `Fail to validate repository ownership for user ${user.username}`,

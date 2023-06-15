@@ -8,6 +8,7 @@ import { IUserModel, userModel } from './user.model';
 import { appConfig } from '../../config/env';
 import jwt from 'jsonwebtoken';
 import { body } from 'express-validator';
+import { IProjectModel, projectModel } from './project.model';
 
 interface IReq extends IAppRequest {
   body: {
@@ -24,8 +25,6 @@ export const validateGetPublicReposByUserAction: BaseValidationType = [
   reqValidationResult,
 ];
 
-const clientID = 'f60f190806923e18f3ed';
-const clientSecret = '630beb018ffb9cb4364029fbd94e7781d7f25624';
 export async function getPublicReposByUserAction(req: IReq, res: IRes): Promise<IRes> {
   const { token } = req.body;
 
@@ -74,7 +73,24 @@ export async function getPublicReposByUserAction(req: IReq, res: IRes): Promise<
         forks: repo.forks,
       };
     });
-
+    const projectDetails: IProjectModel[] = await projectModel
+      .find({ username: user.username })
+      .lean();
+    if (projectDetails.length > 0) {
+      const mergedResult = publicRepos.map((repo: any) => {
+        const podProjects = projectDetails.filter((pod) => {
+          return pod.projectName == repo.name;
+        });
+        if (podProjects.length > 0) {
+          return { ...repo, isAllowedMint: true, projectHash: podProjects[0].projectHash };
+        }
+        return repo;
+      });
+      return res.json({
+        success: true,
+        data: { user, publicRepos: mergedResult },
+      });
+    }
     // TODO pagination
     return res.json({
       success: true,

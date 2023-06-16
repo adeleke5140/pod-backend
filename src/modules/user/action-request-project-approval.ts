@@ -124,7 +124,7 @@ export async function requestProjectApproval(req: IReq, res: IRes): Promise<IRes
           if (project) {
             return res.json({
               success: true,
-              data: { projectHash, trasactionHash: createProject.hash },
+              data: { projectHash, transactionHash: createProject.hash },
               message: 'Project registered and ready to mint NFTs',
             });
           }

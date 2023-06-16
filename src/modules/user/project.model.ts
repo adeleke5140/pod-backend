@@ -34,7 +34,6 @@ const projectSchema: Schema = new Schema(
     },
     username: {
       type: String,
-      unique: true,
       required: true,
     },
     projectHash: {

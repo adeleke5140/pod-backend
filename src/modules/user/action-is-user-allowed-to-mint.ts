@@ -24,8 +24,8 @@ interface IRes extends IAppResponse {
 }
 export const validateIsUserAllowedToMintNftAction: BaseValidationType = [reqValidationResult];
 
-const clientID = 'f60f190806923e18f3ed';
-const clientSecret = '630beb018ffb9cb4364029fbd94e7781d7f25624';
+const clientID = 'b8d107db86e23b9990b5';
+const clientSecret = '09320e8b24f20dcc6f52d020876b399517cc86bc';
 export async function isUserAllowedToMintAction(req: IReq, res: IRes): Promise<IRes> {
   const { code, projectHash, account } = req.body;
   const url = `https://github.com/login/oauth/access_token?client_id=${clientID}&client_secret=${clientSecret}&code=${code}`;

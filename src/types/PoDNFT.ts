@@ -27,13 +27,14 @@ export interface PoDNFTInterface extends utils.Interface {
     "getApproved(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "name()": FunctionFragment;
+    "nftOwners(bytes32,bytes32)": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "pause()": FunctionFragment;
     "paused()": FunctionFragment;
     "projectTokenIdMap(bytes32)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
-    "safeMint(address,bytes32,string)": FunctionFragment;
+    "safeMint(address,bytes32,bytes32,string)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
@@ -66,6 +67,10 @@ export interface PoDNFTInterface extends utils.Interface {
     values: [string, string]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "nftOwners",
+    values: [BytesLike, BytesLike]
+  ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "ownerOf",
@@ -83,7 +88,7 @@ export interface PoDNFTInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "safeMint",
-    values: [string, BytesLike, string]
+    values: [string, BytesLike, BytesLike, string]
   ): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom",
@@ -131,6 +136,7 @@ export interface PoDNFTInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "nftOwners", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
@@ -282,6 +288,12 @@ export interface PoDNFT extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<[string]>;
 
+    nftOwners(
+      arg0: BytesLike,
+      arg1: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
     owner(overrides?: CallOverrides): Promise<[string]>;
 
     ownerOf(
@@ -307,6 +319,7 @@ export interface PoDNFT extends BaseContract {
     safeMint(
       to: string,
       projectIdHash: BytesLike,
+      contributor: BytesLike,
       uri: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -393,6 +406,12 @@ export interface PoDNFT extends BaseContract {
 
   name(overrides?: CallOverrides): Promise<string>;
 
+  nftOwners(
+    arg0: BytesLike,
+    arg1: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
   owner(overrides?: CallOverrides): Promise<string>;
 
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
@@ -415,6 +434,7 @@ export interface PoDNFT extends BaseContract {
   safeMint(
     to: string,
     projectIdHash: BytesLike,
+    contributor: BytesLike,
     uri: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -498,6 +518,12 @@ export interface PoDNFT extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<string>;
 
+    nftOwners(
+      arg0: BytesLike,
+      arg1: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
     owner(overrides?: CallOverrides): Promise<string>;
 
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
@@ -516,6 +542,7 @@ export interface PoDNFT extends BaseContract {
     safeMint(
       to: string,
       projectIdHash: BytesLike,
+      contributor: BytesLike,
       uri: string,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -648,6 +675,12 @@ export interface PoDNFT extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
+    nftOwners(
+      arg0: BytesLike,
+      arg1: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     ownerOf(
@@ -673,6 +706,7 @@ export interface PoDNFT extends BaseContract {
     safeMint(
       to: string,
       projectIdHash: BytesLike,
+      contributor: BytesLike,
       uri: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -763,6 +797,12 @@ export interface PoDNFT extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    nftOwners(
+      arg0: BytesLike,
+      arg1: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     ownerOf(
@@ -788,6 +828,7 @@ export interface PoDNFT extends BaseContract {
     safeMint(
       to: string,
       projectIdHash: BytesLike,
+      contributor: BytesLike,
       uri: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;

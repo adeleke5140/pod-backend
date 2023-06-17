@@ -9,6 +9,9 @@ import { IProjectModel, projectModel } from './project.model';
 import { ethers } from 'ethers';
 import PoDJosn from '../../abis/PoDNFT.sol/PoDNFT.json';
 import { PoDNFT } from 'types/PoDNFT';
+//import { Blob, File } from 'nodejs';
+
+import { Web3Storage } from 'web3.storage';
 
 interface IReq extends IAppRequest {
   body: {
@@ -52,8 +55,6 @@ export async function isUserAllowedToMintAction(req: IReq, res: IRes): Promise<I
         Authorization: 'token ' + accessToken,
       },
     });
-
-    // console.log(`githubUserData`, githubUserData.data);
 
     const githubUsername = githubUserData.data?.login;
     if (githubUsername != null) {
@@ -133,9 +134,18 @@ export async function isUserAllowedToMintAction(req: IReq, res: IRes): Promise<I
       ) as PoDNFT;
 
       try {
+        const contributorHash = ethers.utils.hashMessage(contributorUsername);
+
+        const nftMetadata = getNftMetadata(
+          nftUri,
+          projectName,
+          contributorUsername,
+          minContributions,
+        );
+        const cid = await upldoadToIpfs(nftMetadata);
         const mintNft = await podContract
           .connect(walletWithProvider)
-          .safeMint(account, projectHash, nftUri);
+          .safeMint(account, projectHash, contributorHash, cid);
         if (mintNft.hash) {
           return res.json({
             success: true,
@@ -156,4 +166,36 @@ export async function isUserAllowedToMintAction(req: IReq, res: IRes): Promise<I
     console.log('error', e);
     throw new HttpError(StatusCodes.SERVICE_UNAVAILABLE);
   }
+}
+
+function getNftMetadata(
+  nftUri: string,
+  projectName: string,
+  contributor: string,
+  minContributions: number,
+) {
+  return {
+    image: `https://${nftUri}.ipfs.w3s.link`,
+    attributes: [
+      { value: projectName, trait_type: 'Project Name' },
+      { display_type: 'number', value: minContributions, trait_type: 'Min Contributions' },
+      { value: contributor, trait_type: 'Contributor' },
+      { value: 'Proof of Development', trait_type: 'Collectible' },
+    ],
+  };
+}
+async function upldoadToIpfs(data: any): Promise<string> {
+  // Construct with token and endpoint
+  const client = new Web3Storage({ token: appConfig.web3StorageKey });
+  9;
+
+  const jsn = JSON.stringify(data);
+  const blob = new Blob([jsn], { type: 'application/json' });
+  const file = new File([blob], 'metadata.json');
+
+  const cid = await client.put([file], {
+    name: 'POD',
+    wrapWithDirectory: false,
+  });
+  return `https://${cid}.ipfs.w3s.link`;
 }

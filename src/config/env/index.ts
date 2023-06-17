@@ -39,6 +39,7 @@ export interface IConfig {
   contractAddr: {
     podNft: string;
   };
+  web3StorageKey: string;
   providers?: Record<string, unknown | any>;
 }
 
@@ -74,11 +75,14 @@ const development: any = (): IConfig => {
     },
     web3Rpc: 'https://filecoin-calibration.chainup.net/rpc/v1',
     contractAddr: {
-      podNft: '0xe7Dbcb152531C1750733950cdebE04D2AfbbC607',
+      podNft: '0x7748054C55C0b38e5Bd33de97E00141D542a54a7',
     },
     privateKey:
       process.env.PRIVATE_KEY ??
       '0x9631065723768b9eccf87a7c6ac1676cff6063ee73c70c7b626adb538ed6643f',
+    web3StorageKey:
+      process.env.WEB3STORAGE_KEY ??
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDY5NDVCNGI3MDlDMDQ5MEQ5ODg4M0M3YjVBMUZiREVBMzJiNkZjMDgiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTM1NjE2OTM5NjQsIm5hbWUiOiJsaXZlLXN0cmVhbS1ub3RlIn0.AJjUeguuqPbpvaE6nEAuTMlSycklsCcxHhhPts9Cvgk',
     secret: process.env.SECRET ?? '@QEGTUI',
     encryptionKey: process.env.ENCRYPTION_KEY ?? '',
     httpTimeout: parseInt(process.env.HTTP_CLIENT_TIMEOUT) ?? 10000,
@@ -117,8 +121,11 @@ const production: any = (): IConfig => {
       process.env.PRIVATE_KEY ??
       '0x9631065723768b9eccf87a7c6ac1676cff6063ee73c70c7b626adb538ed6643f',
     contractAddr: {
-      podNft: '0x12321',
+      podNft: '0x7748054C55C0b38e5Bd33de97E00141D542a54a7',
     },
+    web3StorageKey:
+      process.env.WEB3STORAGE_KEY ??
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDY5NDVCNGI3MDlDMDQ5MEQ5ODg4M0M3YjVBMUZiREVBMzJiNkZjMDgiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTM1NjE2OTM5NjQsIm5hbWUiOiJsaXZlLXN0cmVhbS1ub3RlIn0.AJjUeguuqPbpvaE6nEAuTMlSycklsCcxHhhPts9Cvgk',
     secret: process.env.SECRET ?? '@QEGTUI',
     encryptionKey: process.env.ENCRYPTION_KEY ?? 'asdfs2323sdf23342dfsf32434',
     httpTimeout: parseInt(process.env.HTTP_CLIENT_TIMEOUT) ?? 10000,
@@ -157,8 +164,11 @@ const test: any = (): IConfig => {
       process.env.PRIVATE_KEY ??
       '0x9631065723768b9eccf87a7c6ac1676cff6063ee73c70c7b626adb538ed6643f',
     contractAddr: {
-      podNft: '0x12321',
+      podNft: '0x7748054C55C0b38e5Bd33de97E00141D542a54a7',
     },
+    web3StorageKey:
+      process.env.WEB3STORAGE_KEY ??
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDY5NDVCNGI3MDlDMDQ5MEQ5ODg4M0M3YjVBMUZiREVBMzJiNkZjMDgiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTM1NjE2OTM5NjQsIm5hbWUiOiJsaXZlLXN0cmVhbS1ub3RlIn0.AJjUeguuqPbpvaE6nEAuTMlSycklsCcxHhhPts9Cvgk',
     secret: process.env.SECRET ?? '@QEGTUI',
     encryptionKey: process.env.ENCRYPTION_KEY ?? 'testtestestestest',
     httpTimeout: parseInt(process.env.HTTP_CLIENT_TIMEOUT) ?? 10000,

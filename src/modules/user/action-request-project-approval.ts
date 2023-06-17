@@ -51,7 +51,6 @@ export async function requestProjectApproval(req: IReq, res: IRes): Promise<IRes
         Authorization: 'token ' + user.accessToken,
       },
     });
-    // console.log(`userRepos===>`, userReposResponse.data?.length);
 
     const userRepos = userReposResponse?.data;
     // filter out the forks from public repos
@@ -74,17 +73,14 @@ export async function requestProjectApproval(req: IReq, res: IRes): Promise<IRes
         };
       })
       .filter((repo: any) => {
-        //console.log(repo.name);
-        console.log('projectName', projectName);
         return repo.name == projectName;
       });
 
     // no approval for now
     if (matchedRepo.length == 1) {
       // TODO
-      // const verifySignature = ethers.utils.verifyMessage(`${message}:${projectName}`, signature);
-      // console.log('Signature verification result', verifySignature);
-      const verifySignature = '0x18D365087Eb68362c7E62792953fB209703541fE';
+      const verifySignature = ethers.utils.verifyMessage(`${message}:${projectName}`, signature);
+
       const provider = new ethers.providers.JsonRpcProvider(appConfig.web3Rpc);
       const walletWithProvider = new ethers.Wallet(appConfig.privateKey, provider);
       const podContract: PoDNFT = new ethers.Contract(
@@ -133,7 +129,7 @@ export async function requestProjectApproval(req: IReq, res: IRes): Promise<IRes
           return res.json({
             success: false,
             data: {},
-            message: 'Fail to create project in Db',
+            message: 'Duplicate minting not allowed.',
           });
         }
       } catch (e) {

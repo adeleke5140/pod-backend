@@ -9,9 +9,7 @@ import { IProjectModel, projectModel } from './project.model';
 import { ethers } from 'ethers';
 import PoDJosn from '../../abis/PoDNFT.sol/PoDNFT.json';
 import { PoDNFT } from 'types/PoDNFT';
-//import { Blob, File } from 'nodejs';
-
-import { Web3Storage } from 'web3.storage';
+import { Web3Storage, File } from 'web3.storage';
 
 interface IReq extends IAppRequest {
   body: {
@@ -190,12 +188,17 @@ async function upldoadToIpfs(data: any): Promise<string> {
   9;
 
   const jsn = JSON.stringify(data);
-  const blob = new Blob([jsn], { type: 'application/json' });
-  const file = new File([blob], 'metadata.json');
-
+  const filePath = `metadata.json`;
+  // const blob = new Blob([jsn], { type: 'application/json' });
+  // const file = new File([blob], 'metadata.json');
+  // fs.writeFileSync(filePath, jsn);
+  // const file = fs.readFileSync(filePath);
+  // const fileArray = new Uint8Array(file);
+  const file = new File([jsn], filePath, { type: 'application/json' });
   const cid = await client.put([file], {
     name: 'POD',
     wrapWithDirectory: false,
   });
+
   return `https://${cid}.ipfs.w3s.link`;
 }

@@ -78,7 +78,6 @@ export async function requestProjectApproval(req: IReq, res: IRes): Promise<IRes
 
     // no approval for now
     if (matchedRepo.length == 1) {
-      // TODO
       const verifySignature = ethers.utils.verifyMessage(`${message}:${projectName}`, signature);
 
       const provider = new ethers.providers.JsonRpcProvider(appConfig.web3Rpc);
